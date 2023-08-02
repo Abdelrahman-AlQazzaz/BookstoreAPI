@@ -1,15 +1,11 @@
 import requests
+import json
 
 endpoint = "http://127.0.0.1:8000/api/"
 
-data=[{
-    'title':'=asajfnkjsdngkjsndgbjsd',
-    'author':"Wael Hallaq",
-    'publisher':"Columbia Univeristy Press",
-    'genre':'acedemic',
-    'publication_date':"2012-11-20",
-    'price':109.87,
-    }]
+token = json.loads(open('token.txt', 'r').read())['access']
+
+header = {'Authorization': f'Bearer {token}',}
 
 def get_request(ep):
     response = requests.get(ep)
@@ -17,15 +13,32 @@ def get_request(ep):
 
 def post_request(ep, objs):
     for x in objs:
-        response = requests.post(ep, json=x)
+        response = requests.post(ep, json=x, headers=header)
         print(response.text)
 
-def put_request(ep, obj):
-    response = requests.put(ep, json=obj)
+def put_request(id, obj):
+    response = requests.put(endpoint+str(id)+'/', json=obj, headers=header)
     print(response.text)
 
-def del_request(ep):
-    response = requests.delete(ep)
+def del_request(id):
+    response = requests.delete(endpoint+str(id)+'/', headers=header)
     print(response.text)
 
-put_request(endpoint+'4/', {'price':20000})
+def obtain_token():
+    response = requests.post(endpoint+"token/", json={'username': 'aq',
+        'password': '!Qazzaz!',})
+    file = open('token.txt', 'w')
+    file.write(response.text)
+    file.close()
+    print(response.text)
+
+data=[{
+    'title':'1984',
+    'author':"George Orwell",
+    'publisher':"Secker and Warburg",
+    'genre':'politcal satire',
+    'publication_date':"1949-06-08",
+    'price':20.09,
+    }]
+
+post_request(endpoint, data)
