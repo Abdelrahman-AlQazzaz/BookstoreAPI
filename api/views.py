@@ -56,7 +56,7 @@ class BookDetail(APIView):
 
     def put(self, request, pk, format=None):
         book = self.get_object_or_404(pk)
-        serializer = BookSerializer(book, data=request.data)
+        serializer = BookSerializer(book, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
