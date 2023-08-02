@@ -32,6 +32,9 @@ def obtain_token():
     file.close()
     print(response.text)
 
+def filter_request(param, query):
+    get_request(endpoint+"filter/"+str(param)+'/'+str(query)+'/')
+
 data=[{
     'title':'1984',
     'author':"George Orwell",
@@ -41,4 +44,4 @@ data=[{
     'price':20.09,
     }]
 
-post_request(endpoint, data)
+filter_request('author','George Orwell')
