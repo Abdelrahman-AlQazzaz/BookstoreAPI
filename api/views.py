@@ -4,7 +4,9 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
-from django.http import HttpResponse
+#from django.http import HttpResponse
+from rest_framework.permissions import IsAuthenticated
+
 
 
 class BookList(APIView):
@@ -52,16 +54,18 @@ class BookDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class BookFilter(APIView):
+    permission_classes = [IsAuthenticated]
     """
     Filternig based on any parameter
     """
-    def get(self, request, param, query, format=None):
-        #return HttpResponse('bookList = Books.objects.filter(' + param + ' = "' + query + '")')
-        #try:
-        books = eval('Books.objects.filter(' + param + ' = query)')
-        #bookList = Books.objects.filter(author = "George Orwell")
+    def get(self, request, param, query, format=None):  
+        if query == '_ascending_':
+            books = eval('Books.objects.all().order_by("' + str(param) + '")')
+        elif query == '_descending_':
+            books = eval('Books.objects.all().order_by("-' + str(param) + '")')
+        else:
+            books = eval('Books.objects.filter(' + param + ' = query)')
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
-        #except:
-            #raise Http404
+
 #class BookSearch(APIView):

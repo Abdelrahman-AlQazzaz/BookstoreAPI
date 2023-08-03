@@ -33,7 +33,9 @@ def login_request():
     print(response.text)
 
 def filter_request(param, query):
-    get_request(endpoint+"filter/"+str(param)+'/'+str(query)+'/')
+    new_ep = endpoint+"filter/"+str(param)+'/'+str(query)+'/'
+    response = requests.get(new_ep, headers=header)
+    print(response.text)
 
 data=[{
     'id':1,
@@ -45,3 +47,4 @@ data=[{
     'price':2,
     }]
 
+filter_request('author','_descending_')
