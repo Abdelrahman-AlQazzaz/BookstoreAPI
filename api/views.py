@@ -81,7 +81,7 @@ class Detail(Views):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class Filter(Views):
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     """
     Filternig based on any parameter
     """
@@ -89,7 +89,6 @@ class Filter(Views):
         ms = self.get_model_serializer(model)
         Model = ms[0]
         DetailSerializer = ms[1]
-
         if query == '_ascending_':
             books = Model.objects.all().order_by(str(param))
         elif query == '_descending_':

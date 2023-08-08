@@ -1,1 +1,1 @@
-{"key":"90e5578cbf3bdfdcd3df7992a7cc8ae4f8721aa6"}
+{"access":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNTEyMjY5LCJpYXQiOjE2OTE1MTE5NjksImp0aSI6IjIwMGZlZTlhMDNmMzQ2NmJhOTEwOTk2MDVmODY1MDk0IiwidXNlcl9pZCI6MX0.yP6zVkM9YTbCRRrgoog-nOpD7a_RmeyckTIxkfEBLFY","refresh":"","user":{"pk":1,"username":"aq","email":"","first_name":"","last_name":""}}
