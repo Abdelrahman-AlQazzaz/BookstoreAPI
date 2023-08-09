@@ -95,7 +95,7 @@ class GetFilter(generics.ListAPIView):
         param2 = self.request.query_params.get('param2')
         query2 = self.request.query_params.get('query2')
         
-        pqlist= [[param, query],[param1, query1],[param1, query1]]
+        pqlist= [[param, query],[param1, query1],[param2, query2]]
         
         queryset = Books.objects.all()
 
@@ -111,3 +111,24 @@ class GetFilter(generics.ListAPIView):
 
         return queryset
         
+class PostFilter(generics.CreateAPIView):
+    
+    serializer_class = BookSerializer
+
+    def post(self, request, format=None):
+
+        params = request.data
+
+        queryset = Books.objects.all()
+
+        for param_name, param_value in params.items():
+            if hasattr(Books, param_name):
+                if param_name == 'order_by':
+                    queryset = queryset.order_by(param_value)
+                else:
+                    query_param = {param_name: param_value}
+                    queryset = queryset.filter(**query_param)
+       
+        serialized = BookSerializer(queryset, many=True)
+
+        return Response(serialized.data)

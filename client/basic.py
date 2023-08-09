@@ -64,5 +64,5 @@ data=[
         'publication_date':'2014-09-01',
         'price':32.00,
     },]
-
-get_request('books/filter/?title=Animal Farm/')
+login_request()
+post_request('books/filter/', [{'price':10,'order_by':'-publishing_date'}])
