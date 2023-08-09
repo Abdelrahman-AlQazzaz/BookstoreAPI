@@ -65,4 +65,4 @@ data=[
         'price':32.00,
     },]
 login_request()
-post_request('books/filter/', [{'price':10,'order_by':'-publishing_date'}])
+post_request('books/', [{'price':10,'order_by':'-publishing_date'}])
