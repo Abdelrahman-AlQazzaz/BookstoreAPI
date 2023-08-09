@@ -8,7 +8,7 @@ key = json.loads(open("key.txt", "r").read())["access"]
 header = {"Authorization": f"Bearer {key}"}
 
 def get_request(ep):
-    response = requests.get(endpoint+ep)
+    response = requests.get(endpoint+ep, headers=header)
     print(response.text)
 
 def post_request(ep, objs):
@@ -64,3 +64,5 @@ data=[
         'publication_date':'2014-09-01',
         'price':32.00,
     },]
+
+get_request('books/filter/?title=Animal Farm/')

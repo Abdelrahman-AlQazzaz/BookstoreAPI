@@ -80,21 +80,34 @@ class Detail(Views):
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class Filter(Views):
-    permission_classes = [IsAuthenticated]
-    """
-    Filternig based on any parameter
-    """
-    def get(self, request, model, param, query, format=None):  
-        ms = self.get_model_serializer(model)
-        Model = ms[0]
-        DetailSerializer = ms[1]
-        if query == '_ascending_':
-            books = Model.objects.all().order_by(str(param))
-        elif query == '_descending_':
-            books = Model.objects.all().order_by("-" + str(param))
-        else:
-            filter_params = {param: query}
-            books = Model.objects.filter(**filter_params)
-        serializer = DetailSerializer(books, many=True)
-        return Response(serializer.data)
+class GetFilter(generics.ListAPIView):
+
+    #permission_classes = [IsAuthenticated]
+    
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+
+        param = self.request.query_params.get('param')
+        query = self.request.query_params.get('query')
+        param1 = self.request.query_params.get('param1')
+        query1 = self.request.query_params.get('query1')
+        param2 = self.request.query_params.get('param2')
+        query2 = self.request.query_params.get('query2')
+        
+        pqlist= [[param, query],[param1, query1],[param1, query1]]
+        
+        queryset = Books.objects.all()
+
+        for pq in pqlist:
+            if pq[1] is not None:
+                if pq[0] == "order_by":
+                    queryset = queryset.order_by(pq[1])
+                elif pq[0] is not None:
+                    filter_params = {pq[0]:pq[1]}
+                    queryset = queryset.filter(**filter_params)
+            else:
+                raise Http404
+
+        return queryset
+        
